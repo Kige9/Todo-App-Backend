@@ -7,7 +7,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3001"],
+    allow_origins=["http://localhost:3000"],
     allow_methods=["*"],
 )
 
@@ -21,6 +21,20 @@ class TaskCreateSchema(BaseModel):
     title: str
 
 tasks: list[TaskSchema] = []
+book: str = ""
+
+class BookCreateSchema(BaseModel):
+    book: str
+
+@app.post("/book")
+def set_book(payload: BookCreateSchema):
+    global book
+    book = payload.book
+    return {"message": "Книга сохранена"}
+
+@app.get("/book")
+def get_book():
+    return f"Любимая книга: {book}"
 
 @app.get("/tasks")
 def read_tasks() -> list[TaskSchema]:
