@@ -8,3 +8,4 @@ class TaskORM(Base):
 
     title: Mapped[str]
     completed: Mapped[bool] = mapped_column(default=False)
+    details: Mapped[str | None]
